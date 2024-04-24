@@ -9,11 +9,8 @@ export default function GuestLayout() {
     }
     
     return (
-        <div>
-            <div>
-                <h2 className="text-red">Title</h2>
-                <p className="text-blue">For guest users only</p>
-                
+        <div className="text-white h-screen flex justify-center items-center bg-cover">
+            <div className="bg-slate-900 border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-30 relative">  
                 <Outlet/>
             </div>
         </div>

@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .navbar-icon {
+        @apply relative flex items-center justify-center
+            h-12 w-12 mt-2 mb-2 mx-auto shadow-lg bg-gray-800 text-green-500
+            hover:bg-green-600 hover:text-white rounded-3xl hover:rounded-xl
+            transition-all duration-150 ease-linear cursor-pointer
+    }
+
+    .navbar-btn {
+        @apply rounded py-7 px-7 hover:bg-slate-300 transition-all duration-300
+    }
+
+    .login-btn {
+        @apply w-full mb-4 text-2xl mt-6 py-2 rounded-full bg-white
+            text-emerald-800 hover:bg-emerald-600 hover:text-white
+            transition-colors duration-150
+    }
+
+    .login-h1 {
+        @apply text-4xl text-white text-center mb-6
+    }
+
+    .login-text-input {
+        @apply block w-96 py-3 px-0 text-sm text-white bg-transparent border-0
+            border-b-2 border-gray-300 appearance-none focus:outline-none
+            focus:ring-0 focus:text-white focus:border-blue-600
+    }
+}

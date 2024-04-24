@@ -1,33 +1,32 @@
 import { useStateContext } from "../contexts/ContextProvider";
-import { Link, Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
+import NavBar from "./NavBar";
+import { useEffect } from "react";
+import axiosClient from "../axios-client";
 
 export default function DefaultLayout() {
-    const {user, token} = useStateContext()
+    const {user, token, setUser} = useStateContext()
 
-    if (!token) {
-        return <Navigate to="/login" />
-    }
+    // if (!token) {
+    //     return <Navigate to="/login" />
+    // }
+
+    // useEffect(() => {
+    //     axiosClient.get('/user')
+    //         .then((response) => {
+    //             console.log(response.data)
+    //             setUser(response.data)
+    //         })
+    // })
 
     return (
-        <div id="defaultLayout">
-            <h2 className="text-4xl font-bold underline text-red-700">Title</h2>
-            <aside>
-                <Link to="/dashboard">Dashboard</Link>
-                <Link to="/users">Users</Link>
-            </aside>
-            <div>
-                <header>
-                    <div className="text-red">
-                        Header
-                    </div>
-                    <div>
-                        User Info
-                    </div>
-                    <main>
-                        <Outlet />
-                    </main>
-                </header>
-            </div>
+        <div>
+            <header>
+                <NavBar />
+            </header>
+            <main>
+                <Outlet />
+            </main>
         </div>
     )
 }

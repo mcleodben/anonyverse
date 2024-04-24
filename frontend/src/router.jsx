@@ -5,7 +5,7 @@ import NotFound from "./views/NotFound";
 import Signup from "./views/Signup";
 import Users from "./views/Users";
 import DefaultLayout from "./components/DefaultLayout";
-import GuestLayout from "./components/GuestLayout";
+import LoginRegisterLayout from "./components/LoginRegisterLayout";
 import Dashboard from "./views/Dashboard";
 
 const router = createBrowserRouter([
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Navigate to="/users" />
+                element: <Navigate to="/dashboard" />
             },
             {
                 path: '/users',
@@ -29,14 +29,14 @@ const router = createBrowserRouter([
     },
     {
         path: '/',
-        element: <GuestLayout />,
+        element: <LoginRegisterLayout />,
         children: [
             {
                 path: '/login',
                 element: <Login />,
             },
             {
-                path: '/signup',
+                path: '/register',
                 element: <Signup />,
             },
         ]

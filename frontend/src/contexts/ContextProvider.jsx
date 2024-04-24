@@ -1,17 +1,19 @@
 import { createContext, useContext, useState } from "react";
 
 const StateContext = createContext({
-    user: null,
-    token: null,
-    setUser: () => {},
-    setToken: () => {},
+    user     : null,
+    token    : null,
+    setUser  : () => {},
+    setToken : () => {},
 })
 
 export const ContextProvider = ({children}) => {
-    const [user, _setUser] = useState({});
-    const [token, _setToken] = useState(123);
+    const [user, _setUser] = useState({})
+    const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'))
 
-    const setUser = () => {};
+    const setUser = (user) => {
+        _setUser(user)
+    }
 
     const setToken = (token) => {
         _setToken(token)
