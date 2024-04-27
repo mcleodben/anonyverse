@@ -13,7 +13,8 @@ return new class extends Migration
             $table->unsignedBigInteger('fk_user_id');
             $table->foreign('fk_user_id')->references('id')->on('users');
             $table->string('content');
-            $table->point('coordinates');
+            $table->decimal('latitude', total: 9, places: 7);
+            $table->decimal('longitude', total: 10, places: 7);
             $table->timestamps();
         });
     }

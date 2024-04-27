@@ -14,9 +14,10 @@ class UpdatePostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fk_user_id'  => 'required|exists:users,id',
-            'content'     => 'required|string|max:300',
-            'coordinates' => 'required'
+            'user_id'   => 'required|exists:users,id',
+            'content'   => 'required|string|max:300',
+            'latitude'  => 'required|decimal:2,7',
+            'longitude' => 'required|decimal:2,7',
         ];
     }
 }
