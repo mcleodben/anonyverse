@@ -37,6 +37,10 @@ class PostController extends Controller
             ->having('distance', '<=', $radius)
             ->orderBy('distance','desc')
             ->paginate(25);
+        
+        // Do something to count and try again with increased radius if there are too few posts in the area.
+        // Probably don't even need radius in the request. Just start with 1 km and increase by 1 and try again
+        // until there either a max radius or post amount is found.
 
         return PostResource::collection(
             $nearbyPosts
