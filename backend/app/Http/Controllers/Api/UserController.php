@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
+use Illuminate\Http\Response;
 
 class UserController extends Controller
 {
@@ -26,7 +27,7 @@ class UserController extends Controller
 
         return response(
             new UserResource($user),
-            201
+            Response::HTTP_CREATED
         );
     }
 
@@ -52,6 +53,6 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response('', 204);
+        return response('', Response::HTTP_NO_CONTENT);
     }
 }

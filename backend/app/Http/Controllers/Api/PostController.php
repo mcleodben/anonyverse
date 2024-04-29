@@ -28,14 +28,14 @@ class PostController extends Controller
 
         // Perhaps find a more Laravel way to do this.
         $nearbyPosts = Post::selectRaw("id, fk_user_id, content, created_at,
-                         ( 6371 * acos( cos( radians(?) ) *
+                        ( 6371 * acos( cos( radians(?) ) *
                            cos( radians( latitude ) )
                            * cos( radians( longitude ) - radians(?)
                            ) + sin( radians(?) ) *
                            sin( radians( latitude ) ) )
-                         ) AS distance", [$latitude, $longitude, $latitude])
+                        ) AS distance", [$latitude, $longitude, $latitude])
             ->having('distance', '<=', $radius)
-            ->orderBy('distance','desc')
+            ->orderBy('created_at','desc')
             ->paginate(25);
         
         // Do something to count and try again with increased radius if there are too few posts in the area.
@@ -55,10 +55,10 @@ class PostController extends Controller
         $data['fk_user_id'] = $data['user_id'];
         unset($data['user_id']);
 
-        $post = Post::create($data);
+        Post::create($data);
 
         return response(
-            new PostResource($post),
+            ['success' => true],
             201
         );
     }

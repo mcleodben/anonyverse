@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('content');
             $table->decimal('latitude', total: 9, places: 7);
             $table->decimal('longitude', total: 10, places: 7);
+            $table->integer('votes')->default(0);
             $table->timestamps();
         });
     }

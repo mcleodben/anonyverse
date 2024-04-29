@@ -2,38 +2,32 @@ import { useEffect, useState } from "react";
 import Post from "../components/Post";
 import PostForm from "../components/PostForm";
 import axiosClient from "../axios-client";
+import { useStateContext } from "../contexts/ContextProvider";
 
 export default function Dashboard() {
+    const {token} = useStateContext()
     const [posts, setPosts] = useState([])
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        getPosts()
+        navigator.geolocation.getCurrentPosition((position) => {
+            const location = {
+                latitude  : position.coords.latitude,
+                longitude : position.coords.longitude,
+            }
+
+            getPosts(location)
+        })
+
     }, [])
 
-    // Possibly delete radius from payload and do it automatically.
-    const payload = {
-        latitude  : null,
-        longitude : null,
-        radius    : 10,
-    }
-
-    function success(position) {
-        payload.latitude  = position.coords.latitude;
-        payload.longitude = position.coords.longitude;
-    }
-    
-    function error() {
-        console.log("Unable to retrieve your location");
-    }
-
-    console.log(payload)
-
-    const getPosts = () => {
-        setLoading(true)
-
-        navigator.geolocation.getCurrentPosition(success, error)
-        // Fix this to get users coords etc etc
+    const getPosts = (location) => {
+        const payload = {
+            latitude  : location.latitude,
+            longitude : location.longitude,
+            radius    : 10,
+        }
+        console.log(payload)
 
         axiosClient.post('/nearby-posts', payload)
             .then(({data}) => {
@@ -43,13 +37,11 @@ export default function Dashboard() {
             .catch(() => {
                 setLoading(false)
             })
-        
-            console.log(posts)
     }
     
     return (
         <div className="mt-4 max-w-4xl mx-auto gap-6">
-            <PostForm />
+            {token && <PostForm />}
             <h2 className="text-xl flex justify-center py-5">What people are saying near you</h2>
 
             {posts.map((post, i) => {                       

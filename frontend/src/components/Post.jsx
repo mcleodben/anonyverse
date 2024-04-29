@@ -18,6 +18,9 @@ export default function Post({post}) {
                         <div>
                             <p className="text-gray-500 text-sm">2 replies</p>
                         </div>
+                        <div>
+                            <p className="text-gray-500 text-sm">{post.distance}</p>
+                        </div>
                     </div>
                 </div>
                 <div className="h-auto flex flex-col justify-center">
@@ -25,7 +28,7 @@ export default function Post({post}) {
                         <FaChevronUp />
                     </div>
                     <div className="flex justify-center">
-                        <p className="text-purple-900 text-sm">0</p>
+                        <p className="text-purple-900 text-sm">{post.score}</p>
                     </div>
                     <div className="flex justify-center">
                         <FaChevronDown />

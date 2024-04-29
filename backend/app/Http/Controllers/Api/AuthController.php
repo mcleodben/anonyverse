@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Requests\LoginRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -32,10 +33,10 @@ class AuthController extends Controller
         $user = Auth::user();
         $token = $user->createToken('main')->plainTextToken;
 
-        return response([
-            'user'  => $user,
-            'token' => $token,
-        ]);
+        return response(
+            ['user' => $user, 'token' => $token],
+            Response::HTTP_OK
+        );
     }
 
     public function register(RegisterRequest $request)
@@ -50,10 +51,10 @@ class AuthController extends Controller
 
         $token = $user->createToken('main')->plainTextToken;
 
-        return response([
-            'user'  => $user,
-            'token' => $token,
-        ]);
+        return response(
+            ['user' => $user, 'token' => $token],
+            Response::HTTP_CREATED
+        );
     }
 
     public function logout()
@@ -62,6 +63,6 @@ class AuthController extends Controller
         $user = Auth::user();
         $user->currentAccessToken()->delete;
 
-        return response('', self::CODE_SUCCESS_NO_CONTENT);
+        return response('', Response::HTTP_NO_CONTENT);
     }
 }
