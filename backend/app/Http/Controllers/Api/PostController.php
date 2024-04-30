@@ -26,7 +26,6 @@ class PostController extends Controller
         $longitude = $data['longitude'];
         $radius    = $data['radius'];
 
-        // Perhaps find a more Laravel way to do this.
         $nearbyPosts = Post::selectRaw("id, fk_user_id, content, created_at,
                         ( 6371 * acos( cos( radians(?) ) *
                            cos( radians( latitude ) )
@@ -51,11 +50,12 @@ class PostController extends Controller
     {
         $data = $request->validated();
 
-        // How can this be done inside the model.
-        $data['fk_user_id'] = $data['user_id'];
-        unset($data['user_id']);
-
-        Post::create($data);
+        Post::create([
+            'fk_user_id' => $data['user_id'],
+            'content'    => $data['content'],
+            'latitude'   => $data['latitude'],
+            'longitude'  => $data['longitude'],
+        ]);
 
         return response(
             ['success' => true],

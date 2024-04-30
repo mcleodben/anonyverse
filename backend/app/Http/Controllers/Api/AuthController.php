@@ -12,10 +12,6 @@ use App\Http\Requests\RegisterRequest;
 
 class AuthController extends Controller
 {
-    private const CODE_SUCCESS            = 200;
-    private const CODE_SUCCESS_NO_CONTENT = 204;
-    private const CODE_ERROR              = 400;
-    
     public function login(LoginRequest $request)
     {
         $credentials = $request->validated();
@@ -23,9 +19,10 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials)) {
             return response(
                 [
+                    'success' => false,
                     'message' => 'Email or password is incorrect.'
                 ],
-                self::CODE_ERROR
+                Response::HTTP_BAD_REQUEST
             );
         }
 
@@ -64,5 +61,13 @@ class AuthController extends Controller
         $user->currentAccessToken()->delete;
 
         return response('', Response::HTTP_NO_CONTENT);
+    }
+
+    public function getAuthedUser(Request $request)
+    {
+        return response(
+            [$request->user()],
+            Response::HTTP_OK
+        );
     }
 }
