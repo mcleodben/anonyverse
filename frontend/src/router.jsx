@@ -7,6 +7,7 @@ import Users from "./views/Users";
 import DefaultLayout from "./components/DefaultLayout";
 import LoginRegisterLayout from "./components/LoginRegisterLayout";
 import Dashboard from "./views/Dashboard";
+import Explore from "./views/Explore";
 
 const router = createBrowserRouter([
     {
@@ -24,6 +25,10 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard',
                 element: <Dashboard />,
+            },
+            {
+                path: '/explore',
+                element: <Explore />,
             },
         ]
     },

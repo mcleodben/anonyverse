@@ -5,21 +5,31 @@ import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
 
 export default function Dashboard() {
-    const {token} = useStateContext()
+    const {user, token, getUser, setLocation} = useStateContext()
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
+    const [showPostForm, setshowPostForm] = useState(false)
 
     useEffect(() => {
+        if (!user && token) {
+            getUser()
+        }
+
         navigator.geolocation.getCurrentPosition((position) => {
             const location = {
                 latitude  : position.coords.latitude,
                 longitude : position.coords.longitude,
             }
-
+            setLocation(location)
             getPosts(location)
+
+            user ? setshowPostForm(true) : setshowPostForm(false)
+
+            console.log(user)
+            console.log(token)
         })
 
-    }, [])
+    }, [user])
 
     const getPosts = (location) => {
         const payload = {
@@ -27,7 +37,6 @@ export default function Dashboard() {
             longitude : location.longitude,
             radius    : 10,
         }
-        console.log(payload)
 
         axiosClient.post('/nearby-posts', payload)
             .then(({data}) => {
@@ -41,11 +50,15 @@ export default function Dashboard() {
     
     return (
         <div className="mt-4 max-w-4xl mx-auto gap-6">
-            {token && <PostForm />}
+            {showPostForm && <PostForm />}
             <h2 className="text-xl flex justify-center py-5">What people are saying near you</h2>
 
             {posts.map((post, i) => {                       
-                return (<Post post={post} />) 
+                return (
+                    <div key={post.id} className="py-1">
+                        <Post post={post} />
+                    </div>
+                ) 
             })}
         </div>
     )

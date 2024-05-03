@@ -12,7 +12,7 @@ const NavBar = () => {
 
         axiosClient.post('/logout')
             .then((response) => {
-                setUser({})
+                setUser(null)
                 setToken(null)
             }
         )
@@ -30,7 +30,8 @@ const NavBar = () => {
 
                     <div>
                         <ul className="mr-10 lg:flex space-x-4 text-white uppercase rounded fixed lg:relative h-screen lg:h-0 w-screen lg:w-fit top-20 lg:top-0 transition-all duration-300 lg:transition-none text-center bg-slate-700">
-                            <li className="navbar-btn"><Link to="/dashboard">Explore</Link></li>
+                            <li className="navbar-btn"><Link to="/dashboard">Nearby</Link></li>
+                            <li className="navbar-btn"><Link to="/explore">Explore</Link></li>
                             <li className="navbar-btn"><Link to="/users">Users</Link></li>
                         </ul>
                     </div>

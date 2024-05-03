@@ -1,26 +1,26 @@
+import axiosClient from "../axios-client";
 import { createContext, useContext, useState } from "react";
 
 const StateContext = createContext({
-    user     : null,
-    token    : null,
-    location : null,
-    setUser  : () => {},
-    setToken : () => {},
-    setLocation : () => {},
+    user        : null,
+    token       : null,
+    location    : null,
+    setUser     : null,
+    setToken    : null,
+    setLocation : null,
+    getUser     : null,
 })
 
-export const ContextProvider = ({children}) => {
-    const [user, _setUser] = useState({})
+export function ContextProvider({children}) {
+    const [user, _setUser] = useState(null)
     const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'))
     const [location, _setLocation] = useState({})
 
-    const setUser = (user) => {
+    function setUser(user) {
         _setUser(user)
-
-        // navigator.geolocation.getCurrentPosition(success)
     }
 
-    const setToken = (token) => {
+    function setToken(token) {
         _setToken(token)
 
         token
@@ -28,8 +28,15 @@ export const ContextProvider = ({children}) => {
             : localStorage.removeItem('ACCESS_TOKEN');
     }
 
-    const setLocation = (location) => {
+    function setLocation(location) {
         _setLocation(location)
+    }
+
+    function getUser() {
+        axiosClient.get('/user')
+            .then(({data}) => {
+                setUser(data)
+            })
     }
 
     return (
@@ -40,6 +47,7 @@ export const ContextProvider = ({children}) => {
             setUser,
             setToken,
             setLocation,
+            getUser,
         }}>
             {children}
         </StateContext.Provider>

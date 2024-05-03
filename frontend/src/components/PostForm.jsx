@@ -17,6 +17,8 @@ export default function PostForm() {
             longitude : location.longitude,
         }
 
+        console.log(payload)
+
         axiosClient.post('/create-post', payload)
             .then((response) => {
                 
