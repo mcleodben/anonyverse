@@ -35,4 +35,38 @@ class ReplyTest extends TestCase
             'content'    => 'Testing create reply',
         ]);
     }
+
+    /**
+     * @dataProvider invalidReplyDataProvider
+     */
+    public function testCreateReplyWithIncorrectPayload($invalidPayload): void
+    {
+        $user = User::factory()->create();
+
+        Post::factory()->create();
+
+        $response = $this->actingAs($user)->post('/api/create-reply', $invalidPayload, ['Accept' => 'application/json']);
+
+        $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY);
+    }
+
+    public static function invalidReplyDataProvider()
+    {
+        return [
+            'Invalid user id' => [
+                [
+                    'user_id' => 999,
+                    'post_id' => 1,
+                    'content' => 'Testing create reply',
+                ],
+            ],
+            'Invalid post id' => [
+                [
+                    'user_id' => 1,
+                    'post_id' => 999,
+                    'content' => 'Testing create reply',
+                ],
+            ],
+        ];
+    }
 }
