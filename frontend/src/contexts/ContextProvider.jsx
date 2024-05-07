@@ -5,16 +5,19 @@ const StateContext = createContext({
     user        : null,
     token       : null,
     location    : null,
+    showModal   : false,
     setUser     : null,
     setToken    : null,
     setLocation : null,
     getUser     : null,
+    setShowModal: null,
 })
 
 export function ContextProvider({children}) {
     const [user, _setUser] = useState(null)
     const [token, _setToken] = useState(localStorage.getItem('ACCESS_TOKEN'))
     const [location, _setLocation] = useState({})
+    const [showModal, _setShowModal] = useState(false)
 
     function setUser(user) {
         _setUser(user)
@@ -32,6 +35,10 @@ export function ContextProvider({children}) {
         _setLocation(location)
     }
 
+    function setShowModal(value) {
+        _setShowModal(value)
+    }
+
     function getUser() {
         axiosClient.get('/user')
             .then(({data}) => {
@@ -44,10 +51,12 @@ export function ContextProvider({children}) {
             user,
             token,
             location,
+            showModal,
             setUser,
             setToken,
             setLocation,
             getUser,
+            setShowModal,
         }}>
             {children}
         </StateContext.Provider>

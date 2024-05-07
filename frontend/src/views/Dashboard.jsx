@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import Post from "../components/Post";
-import PostForm from "../components/PostForm";
 import axiosClient from "../axios-client";
 import { useStateContext } from "../contexts/ContextProvider";
+import Modal from "../components/Modal";
+import Replies from "../components/Replies";
 
 export default function Dashboard() {
     const {user, token, getUser, setLocation} = useStateContext()
     const [posts, setPosts] = useState([])
     const [loading, setLoading] = useState(true)
-    const [showPostForm, setshowPostForm] = useState(false)
+    const [showReplies, setShowReplies] = useState(false)
+    const [postData, setPostData] = useState(null)
 
     useEffect(() => {
         if (!user && token) {
@@ -22,16 +24,11 @@ export default function Dashboard() {
             }
             setLocation(location)
             getPosts(location)
-
-            user ? setshowPostForm(true) : setshowPostForm(false)
-
-            console.log(user)
-            console.log(token)
         })
 
     }, [user])
 
-    const getPosts = (location) => {
+    function getPosts(location) {
         const payload = {
             latitude  : location.latitude,
             longitude : location.longitude,
@@ -47,19 +44,27 @@ export default function Dashboard() {
                 setLoading(false)
             })
     }
+
+    function showPostAndReplies(data) {
+        setPostData(data)
+        setShowReplies(true)
+    }
     
     return (
         <div className="mt-4 max-w-4xl mx-auto gap-6">
-            {showPostForm && <PostForm />}
             <h2 className="text-xl flex justify-center py-5">What people are saying near you</h2>
 
             {posts.map((post, i) => {                       
                 return (
-                    <div key={post.id} className="py-1">
+                    <div onClick={() => showPostAndReplies(post)} key={post.id} className="py-1 hover:cursor-pointer">
                         <Post post={post} />
                     </div>
                 ) 
             })}
+
+            <Modal isVisible={showReplies} onClose={() => setShowReplies(false)}>
+                <Replies postData={postData} />
+            </ Modal>
         </div>
     )
 }

@@ -2,17 +2,13 @@ import { FaChevronDown, FaChevronUp, FaCommentAlt } from "react-icons/fa";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import Card from "./Card";
-import { useState } from "react";
-import PostRepliesModal from "./PostRepliesModal";
 
 export default function Post({post}) {
-    const [replyModalOpen, setReplyModalOpen] = useState(false)
-
     return (
         <Card>
             <div className="flex">
                 <div className="px-4 w-full">
-                    <div className="py-1 hover:cursor-pointer" onClick={() => setReplyModalOpen(true)}>
+                    <div className="py-1 hover:cursor-pointer">
                         <p>
                             {post.content}
                         </p>         
@@ -22,7 +18,7 @@ export default function Post({post}) {
                             <MdAccessTimeFilled /><p className="text-gray-500 text-sm px-1">{post.created_at}</p>
                         </div>
                         {post.replies.length > 0 &&
-                        <div className="flex items-center hover:cursor-pointer" onClick={() => setReplyModalOpen(true)}>
+                        <div className="flex items-center">
                             <FaCommentAlt /><p className="text-gray-500 text-sm px-1">{post.replies.length} {post.replies.length === 1 ? 'reply' : 'replies'}</p>
                         </div>
                         }
@@ -43,8 +39,6 @@ export default function Post({post}) {
                     </div>
                 </div>
             </div>
-
-            <PostRepliesModal replies={post.replies} open={replyModalOpen} onClose={() => setReplyModalOpen(false)} />
         </Card>
     )
 }

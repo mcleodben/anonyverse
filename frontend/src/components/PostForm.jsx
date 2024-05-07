@@ -4,7 +4,7 @@ import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client";
 
 export default function PostForm() {
-    const {location, user} = useStateContext()
+    const {location, user, setShowModal} = useStateContext()
     const postRef = useRef(null)
     
     function createPost(event) {
@@ -17,11 +17,9 @@ export default function PostForm() {
             longitude : location.longitude,
         }
 
-        console.log(payload)
-
         axiosClient.post('/create-post', payload)
             .then((response) => {
-                
+                setShowModal(false)
             })
     }
 
